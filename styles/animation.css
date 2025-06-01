@@ -1,0 +1,403 @@
+
+/* animation.css - Animações do box breathing */
+
+/* ==========================================
+   VARIÁVEIS DE ANIMAÇÃO
+   ========================================== */
+:root {
+  /* Duração das animações */
+  --animation-duration: 6s;
+  --animation-timing: ease-in-out;
+  
+  /* Posições do ponto no quadrado (baseado no viewBox 200x200) */
+  --box-start-x: 20;
+  --box-start-y: 20;
+  --box-end-x: 180;
+  --box-end-y: 180;
+  --box-size: 160;
+  
+  /* Estados visuais */
+  --dot-size-normal: 8;
+  --dot-size-active: 12;
+  --box-opacity-inactive: 0.3;
+  --box-opacity-active: 1;
+}
+
+/* ==========================================
+   ESTADO INICIAL - PARADO
+   ========================================== */
+.breathing-box {
+  opacity: var(--box-opacity-inactive);
+  transition: opacity var(--transition-normal);
+}
+
+.breathing-box.active {
+  opacity: var(--box-opacity-active);
+  color: var(--color-breathing-active);
+}
+
+.breathing-dot {
+  transition: all var(--transition-normal);
+  transform-origin: center;
+}
+
+.breathing-dot.active {
+  r: var(--dot-size-active);
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+/* ==========================================
+   CONTAGEM REGRESSIVA
+   ========================================== */
+.countdown-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius-xl);
+  z-index: 5;
+  transition: opacity var(--transition-normal);
+}
+
+.countdown-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.countdown-number {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+  animation: countdownPulse 1s ease-in-out;
+}
+
+.countdown-text {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+@keyframes countdownPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ==========================================
+   ANIMAÇÕES DO PONTO - FASES DA RESPIRAÇÃO
+   ========================================== */
+
+/* INSPIRE - Movimento para cima (lado esquerdo do quadrado) */
+.breathing-dot.phase-inhale {
+  animation: moveUp var(--animation-duration) var(--animation-timing) forwards;
+}
+
+@keyframes moveUp {
+  from {
+    cx: var(--box-start-x);
+    cy: var(--box-end-y);
+  }
+  to {
+    cx: var(--box-start-x);
+    cy: var(--box-start-y);
+  }
+}
+
+/* SEGURAR 1 - Movimento para direita (lado superior do quadrado) */
+.breathing-dot.phase-hold1 {
+  animation: moveRight var(--animation-duration) var(--animation-timing) forwards;
+}
+
+@keyframes moveRight {
+  from {
+    cx: var(--box-start-x);
+    cy: var(--box-start-y);
+  }
+  to {
+    cx: var(--box-end-x);
+    cy: var(--box-start-y);
+  }
+}
+
+/* EXPIRE - Movimento para baixo (lado direito do quadrado) */
+.breathing-dot.phase-exhale {
+  animation: moveDown var(--animation-duration) var(--animation-timing) forwards;
+}
+
+@keyframes moveDown {
+  from {
+    cx: var(--box-end-x);
+    cy: var(--box-start-y);
+  }
+  to {
+    cx: var(--box-end-x);
+    cy: var(--box-end-y);
+  }
+}
+
+/* SEGURAR 2 - Movimento para esquerda (lado inferior do quadrado) */
+.breathing-dot.phase-hold2 {
+  animation: moveLeft var(--animation-duration) var(--animation-timing) forwards;
+}
+
+@keyframes moveLeft {
+  from {
+    cx: var(--box-end-x);
+    cy: var(--box-end-y);
+  }
+  to {
+    cx: var(--box-start-x);
+    cy: var(--box-end-y);
+  }
+}
+
+/* ==========================================
+   ESTADOS DO QUADRADO POR FASE
+   ========================================== */
+
+/* Cores e intensidade por fase */
+.breathing-box.phase-inhale {
+  color: #10B981; /* Verde - Inspirar */
+}
+
+.breathing-box.phase-hold1 {
+  color: #F59E0B; /* Amarelo - Segurar */
+}
+
+.breathing-box.phase-exhale {
+  color: #3B82F6; /* Azul - Expirar */
+}
+
+.breathing-box.phase-hold2 {
+  color: #8B5CF6; /* Roxo - Segurar */
+}
+
+/* Pulsação sutil do quadrado durante respiração ativa */
+.breathing-box.breathing-active .box-outline {
+  animation: breathingPulse calc(var(--animation-duration) * 4) ease-in-out infinite;
+}
+
+@keyframes breathingPulse {
+  0%, 100% {
+    stroke-width: 2;
+    opacity: 0.8;
+  }
+  25% {
+    stroke-width: 3;
+    opacity: 1;
+  }
+  50% {
+    stroke-width: 2;
+    opacity: 0.8;
+  }
+  75% {
+    stroke-width: 3;
+    opacity: 1;
+  }
+}
+
+/* ==========================================
+   TRANSIÇÕES ENTRE FASES
+   ========================================== */
+
+/* Reset suave da posição do ponto */
+.breathing-dot.reset {
+  transition: all var(--transition-slow);
+  cx: var(--box-start-x);
+  cy: var(--box-end-y);
+}
+
+/* Fade entre mudanças de fase */
+.phase-transition {
+  animation: phaseTransition var(--transition-normal);
+}
+
+@keyframes phaseTransition {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ==========================================
+   FEEDBACK VISUAL PARA BOTÕES DE FASE
+   ========================================== */
+
+/* Animação de destaque para fase ativa */
+.phase-btn.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: activePhaseShine 2s ease-in-out infinite;
+}
+
+@keyframes activePhaseShine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Pulsação sutil para indicar progresso */
+.phase-btn.active {
+  animation: activePhaseGlow 1s ease-in-out infinite alternate;
+}
+
+@keyframes activePhaseGlow {
+  from {
+    box-shadow: 
+      0 4px 6px -1px rgba(79, 70, 229, 0.1),
+      0 2px 4px -1px rgba(79, 70, 229, 0.06),
+      0 0 0 0 rgba(79, 70, 229, 0.3);
+  }
+  to {
+    box-shadow: 
+      0 4px 6px -1px rgba(79, 70, 229, 0.1),
+      0 2px 4px -1px rgba(79, 70, 229, 0.06),
+      0 0 0 4px rgba(79, 70, 229, 0.1);
+  }
+}
+
+/* ==========================================
+   ANIMAÇÕES DE CONCLUSÃO
+   ========================================== */
+
+/* Celebração quando exercício termina */
+.breathing-complete {
+  animation: celebrationPulse 1.5s ease-in-out;
+}
+
+@keyframes celebrationPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+}
+
+.breathing-complete .breathing-dot {
+  animation: celebrationSpin 2s ease-in-out;
+}
+
+@keyframes celebrationSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================
+   ESTADOS DE PAUSA
+   ========================================== */
+
+/* Quando exercício está pausado */
+.breathing-paused .breathing-dot {
+  animation-play-state: paused;
+  opacity: 0.6;
+}
+
+.breathing-paused .breathing-box {
+  opacity: 0.4;
+  filter: grayscale(0.5);
+}
+
+.breathing-paused .box-outline {
+  stroke-dasharray: 5, 5;
+  animation: pausedDash 2s linear infinite;
+}
+
+@keyframes pausedDash {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+/* ==========================================
+   RESPONSIVIDADE DAS ANIMAÇÕES
+   ========================================== */
+
+@media (max-width: 640px) {
+  :root {
+    --dot-size-normal: 6;
+    --dot-size-active: 10;
+  }
+  
+  .countdown-number {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+@media (max-width: 400px) {
+  :root {
+    --dot-size-normal: 5;
+    --dot-size-active: 8;
+  }
+}
+
+/* ==========================================
+   REDUÇÃO DE MOVIMENTO (ACESSIBILIDADE)
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .breathing-dot {
+    animation-duration: 0.3s !important;
+  }
+  
+  .countdown-number {
+    animation: none;
+  }
+  
+  .phase-btn.active::before {
+    animation: none;
+  }
+  
+  .breathing-box.breathing-active .box-outline {
+    animation: none;
+  }
+  
+  .breathing-complete {
+    animation: none;
+  }
+}
