@@ -14,13 +14,13 @@
     <!-- Header principal -->
     <header class="header">
         <h1 class="app-title">ZenBox</h1>
-        <button class="settings-btn" aria-label="Abrir configurações">
+        <button class="settings-btn" type="button" aria-label="Abrir configurações">
             <span class="settings-icon">⚙️</span>
         </button>
     </header>
 
     <!-- Container principal da aplicação -->
-    <main class="app-container" role="main">
+    <main class="app-container">
         
         <!-- Seção de progresso -->
         <section class="progress-section" aria-label="Progresso do exercício">
@@ -28,7 +28,7 @@
                 <span class="cycle-counter">Ciclo <span id="current-cycle">0</span> de <span id="total-cycles">13</span></span>
             </div>
             <div class="progress-bar">
-                <div class="progress-fill" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+                <div class="progress-fill" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progresso do exercício"></div>
             </div>
         </section>
 
@@ -67,19 +67,19 @@
 
         <!-- Botões de fase para referência visual -->
         <section class="phase-buttons" aria-label="Fases da respiração">
-            <button class="phase-btn" data-phase="inhale" disabled>
+            <button class="phase-btn" type="button" data-phase="inhale" disabled>
                 <span class="phase-label">Inspirar</span>
                 <span class="phase-duration">6s</span>
             </button>
-            <button class="phase-btn" data-phase="hold1" disabled>
+            <button class="phase-btn" type="button" data-phase="hold1" disabled>
                 <span class="phase-label">Segurar</span>
                 <span class="phase-duration">6s</span>
             </button>
-            <button class="phase-btn" data-phase="exhale" disabled>
+            <button class="phase-btn" type="button" data-phase="exhale" disabled>
                 <span class="phase-label">Expirar</span>
                 <span class="phase-duration">6s</span>
             </button>
-            <button class="phase-btn" data-phase="hold2" disabled>
+            <button class="phase-btn" type="button" data-phase="hold2" disabled>
                 <span class="phase-label">Segurar</span>
                 <span class="phase-duration">6s</span>
             </button>
@@ -87,10 +87,10 @@
 
         <!-- Controles principais -->
         <section class="controls" aria-label="Controles do exercício">
-            <button class="control-btn primary" id="start-pause-btn" aria-describedby="control-status">
+            <button class="control-btn primary" type="button" id="start-pause-btn" aria-describedby="control-status">
                 <span class="btn-text">Iniciar</span>
             </button>
-            <button class="control-btn secondary" id="reset-btn" aria-label="Reiniciar exercício">
+            <button class="control-btn secondary" type="button" id="reset-btn" aria-label="Reiniciar exercício">
                 <span class="btn-text">Reiniciar</span>
             </button>
         </section>
@@ -101,11 +101,11 @@
     </main>
 
     <!-- Modal de configurações -->
-    <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="settings-title">
+    <div class="modal-overlay" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="settings-title" aria-modal="true">
         <div class="modal-content">
             <header class="modal-header">
                 <h2 id="settings-title">Configurações</h2>
-                <button class="modal-close" aria-label="Fechar configurações">✕</button>
+                <button class="modal-close" type="button" aria-label="Fechar configurações">✕</button>
             </header>
             
             <form class="settings-form">
@@ -135,15 +135,19 @@
     </div>
 
     <!-- Modal de conclusão -->
-    <div class="modal-overlay" id="completion-modal" aria-hidden="true" role="dialog" aria-labelledby="completion-title">
+    <div class="modal-overlay" id="completion-modal" aria-hidden="true" role="dialog" aria-labelledby="completion-title" aria-modal="true">
         <div class="modal-content completion">
-            <div class="completion-icon">✨</div>
-            <h2 id="completion-title">Exercício Concluído!</h2>
-            <p class="completion-message">Você completou <span id="completed-cycles">13</span> ciclos de respiração.</p>
-            <div class="form-actions">
-                <button class="btn secondary" id="new-session">Nova Sessão</button>
-                <button class="btn primary" id="close-completion">Fechar</button>
+            <header class="modal-header">
+                <div class="completion-icon">✨</div>
+                <h2 id="completion-title">Exercício Concluído!</h2>
+            </header>
+            <div class="modal-body">
+                <p class="completion-message">Você completou <span id="completed-cycles">13</span> ciclos de respiração.</p>
             </div>
+            <footer class="modal-footer">
+                <button type="button" class="btn secondary" id="new-session">Nova Sessão</button>
+                <button type="button" class="btn primary" id="close-completion">Fechar</button>
+            </footer>
         </div>
     </div>
 
