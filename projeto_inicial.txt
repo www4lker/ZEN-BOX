@@ -1,0 +1,75 @@
+O usuário quer um projeto mais focado, apenas na respiração box (quadrado), e quer ver uma overview da estrutura completa do projeto. Ele detalhou bem o que quer:
+
+1. Só respiração box (não as outras 3 técnicas)
+2. Simples e minimalista
+3. Tecnologias: HTML, CSS, JS vanilla
+4. Funcionalidades: 
+   - Animação do ponto no quadrado
+   - Configurações de tempo (3,4,6,8 segundos simétricos)
+   - Configuração de número de ciclos
+   - Contagem regressiva inicial
+   - Pausa/retomar
+   - Barra de progresso
+   - Interface limpa
+
+Vou criar uma overview da estrutura de arquivos mais simples e focada, seguindo os princípios modulares mas sem over-engineering.
+<analise_inicial>
+  <objetivo>Criar ZenBox - ferramenta web minimalista para respiração box breathing com animação visual e controles configuráveis</objetivo>
+  <componentes>
+    1. Módulo App Core (estado principal e coordenação)
+    2. Módulo Box Animation (animação do ponto no quadrado)
+    3. Módulo Timer Controller (fases e contagem regressiva)
+    4. Módulo UI Manager (interface e controles)
+    5. Módulo Settings (configurações persistentes)
+  </componentes>
+  <stack_tecnologica>HTML5 + CSS3 (custom properties, flexbox) + Vanilla JavaScript ES6+ modules</stack_tecnologica>
+  <arquitetura>
+    Estrutura simplificada focada apenas em box breathing:
+    - 5 módulos JavaScript independentes
+    - CSS com custom properties para temas
+    - HTML semântico e acessível
+    - LocalStorage para persistência de configurações
+    - Event-driven communication simples
+  </arquitetura>
+</analise_inicial>
+
+<fase_planejamento>
+  <modulo_inicial>Estrutura de arquivos e módulo App Core</modulo_inicial>
+  <dependencias>Navegador moderno com ES6 modules, CSS custom properties</dependencias>
+  <entregavel>
+    ```
+    zenbox/
+    ├── index.html              # Estrutura principal
+    ├── styles/
+    │   ├── main.css           # Estilos base e layout
+    │   ├──     animation.css      # Animações do box e ponto
+    │   └── components.css     # Botões, controles, modal
+    ├── scripts/
+    │   ├── app.js            # Módulo principal - coordenação
+    │   ├── boxAnimation.js   # Lógica animação ponto/quadrado
+    │   ├── timerController.js # Fases respiração e contagem
+    │   ├── uiManager.js      # Interface e eventos DOM
+    │   └── settings.js       # Configurações e localStorage
+    └── assets/
+        └── (eventuais ícones/sons opcionais)
+    
+    CONFIGURAÇÕES PADRÃO:
+    - Tempo por fase: 6 segundos (configurável: 3,4,6,8)
+    - Ciclos totais: 13 (configurável)
+    - Fases: Inspire → Hold → Expire → Hold
+    - Interface: minimalista, cores calmas
+    ```
+  </entregavel>
+</fase_planejamento>
+
+<pergunta_ao_usuario>
+Perfeito! Estrutura bem focada. Agora escolha por onde começar:
+
+**OPÇÕES:**
+1. **HTML** - Criar estrutura semântica base completa
+2. **APP** - Implementar módulo app.js (coordenador principal)  
+3. **CSS** - Definir layout e variáveis CSS base
+4. **ANIMATION** - Começar pelo módulo de animação do box
+
+Qual prefere implementar primeiro?
+</pergunta_ao_usuario>
